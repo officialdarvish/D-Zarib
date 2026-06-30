@@ -1,0 +1,18 @@
+name: d-zarib
+
+services:
+  xui-factor:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: ${IMAGE_NAME:-darvish021/d-zarib:latest}
+    container_name: ${CONTAINER_NAME:-xui-factor}
+    restart: unless-stopped
+    env_file:
+      - .env
+    command: ["${RUN_MODE:-serve}"]
+    ports:
+      - "${WEBHOOK_LISTEN_IP:-127.0.0.1}:${WEBHOOK_PORT:-19090}:${WEBHOOK_PORT:-19090}"
+    volumes:
+      # SQLite mode: mount 3x-ui DB folder from host.
+      - "${XUI_ETC_DIR:-/etc/x-ui}:/etc/x-ui"
